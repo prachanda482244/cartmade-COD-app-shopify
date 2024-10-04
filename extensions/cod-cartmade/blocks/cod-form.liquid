@@ -1,0 +1,122 @@
+{{ 'https://cdn.tailwindcss.com' | script_tag }}
+
+{% assign productId = product.id %}
+{% assign variantId = product.variants[0].id %}
+<button id="openModal" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none">
+  COD form
+</button>
+
+<div id="modal" class=" inset-0 bg-black bg-opacity-50 hidden justify-center items-center hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h2 class="text-xl font-semibold mb-4">Fill out the form</h2>
+    <form id="myForm">
+      <input type="hidden" name="productId" value="{{ productId }}">
+      <input type="hidden" name="variantId" value="{{ variantId }}">
+      <input type="hidden" name="shop" value="{{ shop.name }}">
+      <div class="mb-4">
+        <label class="block text-gray-700">First Name</label>
+        <input type="text" name="firstName" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Last Name</label>
+        <input type="text" name="lastName" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Email Address</label>
+        <input type="email" name="email" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Address Line 1</label>
+        <input type="text" name="address1" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Address Line 2</label>
+        <input type="text" name="address2" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Province</label>
+        <input type="text" name="province" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">City</label>
+        <input type="text" name="city" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700">Zip Code</label>
+        <input type="text" name="zipcode" class="mt-1 block w-full p-2 border border-gray-300 rounded" required>
+      </div>
+      <div class="flex justify-end">
+        <button type="button" id="closeModal"
+          class="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none">
+          Close
+        </button>
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const openModalBtn = document.getElementById('openModal');
+  const closeModalBtn = document.getElementById('closeModal');
+  const modal = document.getElementById('modal');
+  const form = document.getElementById('myForm');
+
+  // Function to open the modal
+  openModalBtn.addEventListener('click', () => {
+    modal.classList.toggle("hidden")
+  });
+
+  // Function to close the modal
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+  });
+
+  // Log the form data on submit
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    console.log(data);
+    try {
+      const response = await fetch("https://fabulous-basement-modification-flat.trycloudflare.com/api/create_order", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      const actualResponse = await response.json()
+      if (actualResponse.statusCode !== 200) {
+        alert("Something went wrong")
+      }
+      alert("Your order has been placed.")
+      modal.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      form.reset();
+    } catch (error) {
+      console.log(error)
+    }
+
+  });
+</script>
+
+
+{% schema %}
+{
+"name": "COD-FORM",
+"target": "section",
+"settings": [
+{ "type": "product", "id": "product", "label": "Product", "autofill": true },
+{ "type": "color", "id": "colour", "label": "Star Colour", "default": "#ff0000" }
+]
+}
+{% endschema %}
