@@ -3,7 +3,7 @@
 client_id = "dd03d1fda75661c750a58ae1c47f961e"
 name = "COD-CARTMADE"
 handle = "cod-cartmade"
-application_url = "https://fabulous-basement-modification-flat.trycloudflare.com"
+application_url = "https://antenna-temporary-cod-hair.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_draft_orders,read_orders,read_products,write_draft_orders,write_o
 
 [auth]
 redirect_urls = [
-  "https://fabulous-basement-modification-flat.trycloudflare.com/auth/callback",
-  "https://fabulous-basement-modification-flat.trycloudflare.com/auth/shopify/callback",
-  "https://fabulous-basement-modification-flat.trycloudflare.com/api/auth/callback"
+  "https://antenna-temporary-cod-hair.trycloudflare.com/auth/callback",
+  "https://antenna-temporary-cod-hair.trycloudflare.com/auth/shopify/callback",
+  "https://antenna-temporary-cod-hair.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
