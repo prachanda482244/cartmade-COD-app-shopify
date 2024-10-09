@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.quote-item {
+  width: 200px;
+  border: 1px solid grey;
+  margin-bottom: 8px; /* Use the grid variable from your original code */
+  background-color: lightblue;
+  padding: 8px; /* Use the grid variable from your original code */
+}

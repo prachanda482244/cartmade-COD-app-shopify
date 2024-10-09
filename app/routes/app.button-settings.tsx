@@ -24,10 +24,11 @@ const BuyButton = () => {
   const [sticky, setSticky] = useState(false);
 
   const [fontSize, setFontSize] = useState<number>(15);
-  const [borderRadius, setBorderRadius] = useState<number>(0);
+  const [borderRadius, setBorderRadius] = useState<number>(4);
   const [borderWidth, setBorderWidth] = useState<number>(0);
+  const [shadow, setShadow] = useState<number>(0);
   const [borderColor, setBorderColor] = useState({
-    hue: 240,
+    hue: 150,
     saturation: 1,
     brightness: 1,
   });
@@ -45,9 +46,11 @@ const BuyButton = () => {
   const handleButtonTextChange = (value: string) => setButtonText(value);
   const handleSubtitleChange = (value: string) => setSubtitle(value);
   const handleStickyChange = (value: boolean) => setSticky(value);
-  const handleIconChange = (icon: string, value: string) =>
+  const handleIconChange = (icon: string, value: string) => {
     value === "x" ? setIcon("") : setIcon(icon);
-
+    setLabel(value);
+  };
+  const [label, setLabel] = useState("");
   const [bgPopoverActive, setBgPopoverActive] = useState(false);
   const [textPopoverActive, setTextPopoverActive] = useState(false);
   const [borderPopoverActive, setBorderPopoverActive] = useState(false);
@@ -69,6 +72,7 @@ const BuyButton = () => {
   const handleFontSizeChange = (value: number) => setFontSize(value);
   const handleBorderRadiusChange = (value: number) => setBorderRadius(value);
   const handleBorderWidthChange = (value: number) => setBorderWidth(value);
+  const handleShadowChange = (value: number) => setShadow(value);
 
   return (
     <Page>
@@ -77,7 +81,7 @@ const BuyButton = () => {
           <Card>
             <BlockStack>
               <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
-                Buy button
+                Button settings
               </h2>
               <p style={{ fontSize: "14px", color: "#5c5f62" }}>
                 Customize the form Buy Now button
@@ -120,12 +124,12 @@ const BuyButton = () => {
                   {iconItems &&
                     iconItems.length &&
                     iconItems?.map(
-                      ({ label, icon: icons, name }: IconItems) => (
+                      ({ label: labelName, icon, name }: IconItems) => (
                         <Button
-                          key={label}
-                          icon={icons}
-                          onClick={() => handleIconChange(icons, label)}
-                          // pressed={icons === icon}
+                          key={labelName}
+                          icon={icon}
+                          onClick={() => handleIconChange(icon, labelName)}
+                          pressed={labelName === label}
                         />
                       ),
                     )}
@@ -214,7 +218,7 @@ const BuyButton = () => {
                   />
                   <RangeSlider
                     label="Border width"
-                    min={1}
+                    min={0}
                     max={15}
                     value={borderWidth}
                     onChange={handleBorderWidthChange}
@@ -249,6 +253,15 @@ const BuyButton = () => {
                       </Popover>
                     </div>
                   </div>
+
+                  <RangeSlider
+                    label="Shadow"
+                    min={1}
+                    max={7}
+                    value={shadow}
+                    onChange={handleShadowChange}
+                    output
+                  />
                 </div>
               </FormLayout.Group>
             </FormLayout>
@@ -266,9 +279,17 @@ const BuyButton = () => {
             Live preview:
           </div>
           <Card>
-            <div>
+            <div
+              style={{
+                borderWidth,
+                borderColor: borderHexColor,
+                borderRadius,
+                background: borderHexColor,
+                boxShadow: `0 4 ${shadow}px black)`,
+              }}
+            >
               <button
-                className="Polaris-Button Polaris-Button--pressable Polaris-Button--variantPrimary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter Polaris-Button--fullWidth Polaris-Button--iconWithText "
+                className="overflow-hidden Polaris-Button Polaris-Button--pressable Polaris-Button--variantPrimary Polaris-Button--sizeMedium Polaris-Button--textAlignCenter Polaris-Button--fullWidth Polaris-Button--iconWithText  "
                 type="button"
                 style={{
                   backgroundColor: bgHexColor,
@@ -277,9 +298,10 @@ const BuyButton = () => {
                   borderRadius,
                   borderWidth,
                   borderColor: borderHexColor,
+                  boxShadow: `0 4 ${shadow}px black)`,
                 }}
               >
-                <span className="Polaris-Button__Icon">
+                <span className="Polaris-Button__Icon text-black">
                   <span
                     className="Polaris-Icon "
                     // style={{ color: textHexColor }}
@@ -289,7 +311,7 @@ const BuyButton = () => {
                 </span>
                 <span
                   style={{ fontSize }}
-                  className="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium flex flex-col "
+                  className="Polaris-Text--root Polaris-Text--bodySm Polaris-Text--medium flex flex-col"
                 >
                   {buttonText}
                   {subtitle && <p className="text-center">{subtitle}</p>}
