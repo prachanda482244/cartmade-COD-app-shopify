@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const response = await admin.graphql(
     `#graphql
       mutation populateProduct($input: ProductInput!) {
-        productCreate(input: $input) {
+        productCreate(input:$input) {
           product {
             id
             title
@@ -94,7 +94,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function Index() {
   const fetcher = useFetcher<typeof action>();
-
   const shopify = useAppBridge();
   const isLoading =
     ["loading", "submitting"].includes(fetcher.state) &&

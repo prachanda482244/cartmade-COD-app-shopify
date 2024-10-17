@@ -1,7 +1,5 @@
 import { cors } from "remix-utils/cors";
 import { ActionFunctionArgs, json } from "@remix-run/node";
-import { apiVersion, authenticate } from "app/shopify.server";
-import { getProductById } from "app/helpers/graphiQL";
 import { getAccessToken } from "app/helpers/prismaQuery";
 import axios from "axios";
 
@@ -43,22 +41,6 @@ export async function action({ request }: ActionFunctionArgs) {
         country: "United ",
         phone: "1234567890",
       };
-
-      // const products = await getProductById({
-      //   productId,
-      //   shop,
-      //   accessToken,
-      //   apiVersion,
-      // });
-
-      // if (!products) {
-      //   return (
-      //     new Response("Failed to fetch the product"),
-      //     {
-      //       status: 404,
-      //     }
-      //   );
-      // }
 
       const orderData = {
         order: {
