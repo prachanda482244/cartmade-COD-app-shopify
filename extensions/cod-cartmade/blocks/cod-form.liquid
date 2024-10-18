@@ -93,7 +93,7 @@
   const otpSection = document.getElementById('otpSection');
   let quantity = parseInt(document.querySelector('.quantity__input').value);
 
-  const url = "https://gazette-generations-partial-theory.trycloudflare.com"
+  const url = "https://profits-arch-patients-atomic.trycloudflare.com"
 
   openModalBtn.addEventListener('click', () => {
     modal.classList.toggle("hidden")
@@ -105,6 +105,7 @@
 
   const verifyContactNoBtn = document.getElementById('verifyContactNo');
   const verifyOtpBtn = document.getElementById('verifyOtp');
+  let pinId
 
   // Verify Contact Number
   verifyContactNoBtn.addEventListener('click', async (e) => {
@@ -115,7 +116,6 @@
       alert("Please enter a contact number to verify.");
       return;
     }
-
     try {
       const response = await fetch(`${url}/api/number_verification`, {
         method: 'POST',
@@ -124,9 +124,10 @@
       });
       const result = await response.json();
 
-      if (result.statusCode === 200) {
-        alert('Contact number verified successfully. Enter the OTP.');
+      if (result.data.smsStatus === "MESSAGE_SENT") {
+        alert(`OTP send to ${contactNo}. Enter the OTP.`);
         otpSection.classList.remove('hidden');
+        pinId = result.data.pinId
       } else {
         alert('Verification failed. Please try again.');
       }
@@ -139,23 +140,25 @@
   // Verify OTP
   verifyOtpBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    const otpCode = document.querySelector('input[name="otpCode"]').value;
+    const code = document.querySelector('input[name="otpCode"]').value;
     const contactNo = document.querySelector('input[name="contactNo"]').value;
 
-    if (!otpCode || !contactNo) {
+    if (!code) {
       alert("Please enter the OTP.");
       return;
     }
-
+    console.log(pinId)
     try {
-      const response = await fetch(`${url}/api/number_verification`, {
+      const response = await fetch(`${url}/api/code_verification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contactNo, otpCode })
+        body: JSON.stringify({ pinId, code })
       });
       const result = await response.json();
       console.log(result)
-      if (result.success) {
+
+
+      if (result.data.verified === true) {
         alert('OTP verified successfully.');
         otpSection.classList.add('hidden');
       } else {

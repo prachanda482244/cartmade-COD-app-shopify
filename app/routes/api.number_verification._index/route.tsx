@@ -1,39 +1,12 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { ActionFunction } from "@remix-run/node";
+import { sendRequest } from "app/helpers/sendRequest";
 import https from "https";
 import { cors } from "remix-utils/cors";
 
 interface RequestBody {
   contactNo: string;
 }
-
-// Utility function to handle HTTPS requests
-const sendRequest = (options: https.RequestOptions, postData: string) => {
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, (res) => {
-      let data = "";
-
-      res.on("data", (chunk) => {
-        data += chunk;
-      });
-
-      res.on("end", () => {
-        resolve(JSON.parse(data));
-      });
-
-      res.on("error", (error) => {
-        reject(error);
-      });
-    });
-
-    req.on("error", (error) => {
-      reject(error);
-    });
-
-    req.write(postData);
-    req.end();
-  });
-};
 
 export const action: ActionFunction = async ({
   request,

@@ -3,7 +3,7 @@
 client_id = "dd03d1fda75661c750a58ae1c47f961e"
 name = "COD-CARTMADE"
 handle = "cod-cartmade"
-application_url = "https://gazette-generations-partial-theory.trycloudflare.com"
+application_url = "https://profits-arch-patients-atomic.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_draft_orders,read_orders,read_products,write_draft_orders,write_o
 
 [auth]
 redirect_urls = [
-  "https://gazette-generations-partial-theory.trycloudflare.com/auth/callback",
-  "https://gazette-generations-partial-theory.trycloudflare.com/auth/shopify/callback",
-  "https://gazette-generations-partial-theory.trycloudflare.com/api/auth/callback"
+  "https://profits-arch-patients-atomic.trycloudflare.com/auth/callback",
+  "https://profits-arch-patients-atomic.trycloudflare.com/auth/shopify/callback",
+  "https://profits-arch-patients-atomic.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
